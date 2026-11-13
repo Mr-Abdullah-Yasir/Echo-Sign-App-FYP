@@ -1,0 +1,30 @@
+{
+  "model_type": "hand_only_conv1d",
+  "num_classes": 8,
+  "sequence_length": 30,
+  "left_hand_dim": 63,
+  "right_hand_dim": 63,
+  "total_dim": 126,
+  "labels": [
+    "book",
+    "drink",
+    "hello",
+    "no",
+    "please",
+    "thankyou",
+    "water",
+    "yes"
+  ],
+  "input_shape": [
+    1,
+    30,
+    126
+  ],
+  "output_shape": [
+    1,
+    8
+  ],
+  "preprocessing": "per-sample standardization: (x - mean) / (std + 1e-6)",
+  "landmark_order": "left_hand_21_xyz followed by right_hand_21_xyz",
+  "note": "Pose landmarks are not used in this model."
+}

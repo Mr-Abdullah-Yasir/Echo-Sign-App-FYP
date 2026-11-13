@@ -1,0 +1,8 @@
+book
+drink
+hello
+no
+please
+thankyou
+water
+yes
