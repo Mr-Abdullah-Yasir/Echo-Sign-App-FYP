@@ -1,0 +1,36 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Private Firebase user profile.
+    match /users/{uid} {
+      allow create: if request.auth != null
+                    && request.auth.uid == uid
+                    && request.resource.data.email == request.auth.token.email;
+
+      allow read, update: if request.auth != null
+                          && request.auth.uid == uid;
+
+      allow delete: if false;
+    }
+
+    // Username lookup is required before Firebase email/password sign-in.
+    // Only direct document gets are allowed; collection listing is blocked.
+    //
+    // IMPORTANT PRIVACY NOTE:
+    // The username document contains the login email so the client can resolve
+    // username -> email before Firebase Auth sign-in. A production app should
+    // move this lookup behind a trusted backend / Cloud Function.
+    match /usernames/{username} {
+      allow get: if true;
+      allow list: if false;
+
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.email == request.auth.token.email;
+
+      allow update, delete: if false;
+    }
+  }
+}
